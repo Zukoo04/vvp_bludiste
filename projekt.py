@@ -3,9 +3,11 @@ import csv
 import matplotlib.pyplot as plt
 import heapq
 import matplotlib.colors
+import os 
+os.chdir("/home/zuko/vvp-projekt/vvp_bludiste/data")
 
 
-def load_maze_from_csv(maze_3):
+def load_maze_from_csv(data):
     """
     Načte bludiště z CSV souboru.
 
@@ -15,7 +17,7 @@ def load_maze_from_csv(maze_3):
     Returns:
     numpy.ndarray: Matice reprezentující bludiště.
     """
-    with open(maze_3, 'r') as file:
+    with open(data, 'r') as file:
         maze_reader = csv.reader(file)
         maze = []
         for row in maze_reader:
@@ -106,7 +108,7 @@ def draw_maze_with_path(maze, path):
     for node in path:
         maze_with_path[node[0]][node[1]] = 2
 
-    
+
     cmap = matplotlib.colors.ListedColormap(['white', 'black', 'red'])
 
     plt.imshow(maze_with_path, cmap=cmap)
@@ -135,10 +137,9 @@ def generate_maze(template="empty", size=10):
     else:
         raise ValueError("Neznámá šablona bludiště.")
 
-
+# Testování funkcí
 maze = load_maze_from_csv("maze_3.csv")
 incidence = incidence_matrix(maze)
 shortest_path = dijkstra_shortest_path(maze)
 draw_maze_with_path(maze, shortest_path)
 generated_maze = generate_maze(template="empty", size=10)
-
